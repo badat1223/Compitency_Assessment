@@ -1,9 +1,9 @@
 //import Variables & Functions
-
+@import 'functions';
 @import 'variables';
 // Base & Layout
 @import 'base';
-
+@import 'breakpoints';
 
 //colors
 @import 'colors';
@@ -13,3 +13,4 @@
 @import 'components/card';
 @import 'components/button';
 //utilities(Margin, Padding, Opacity)
+@import 'utilities';
