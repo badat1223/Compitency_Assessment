@@ -38,40 +38,97 @@ for (i = 0; i < acc.length; i++) {
   })();
  */
 
-  var DataModule = (function(){
+  
 
-    const api_url = "https://api.punkapi.com/v2/beers";
+    const api_url = "https://api.punkapi.com/v2/beers/";
     
     // Defining async function
     async function getapi(url) {
     
     // Storing response
-    const response = await fetch(url);
-    
+  fetch(url)
+    .then (response=>{
+       return response.json();
+    })
     // Storing data in form of JSON
-    var data = await response.json();
-    console.log(data);
-    if (response) {
-        //hideloader();
+   .then(data=>{
+
+    console.log(data[0].name);
+    obj = JSON.parse(JSON.stringify(data));
+ 
+    console.log(Object.keys(obj));
+    var name ="";
+
+    for (let i = 0; i < data.length; i++) {
+      console.log(data[i].name);
+      name= data[i].name
+
+      document.getElementById("accordian").innerHTML=data[i].name;
+
+
     }
-    getData(data);
+
+
+
+   })
+    //var json = await getJsonData();
+    //const myObj = JSON.parse(data);
+
+    //console.log(data);
+
+    //AccordianModule.beerNames(data);
+   
+  
     }
 
     function getData(data){
         return data;
     }
-    
-    return{
-        getApi: getapi(api_url)
-    }
-    
-    
-    })();
+    // Calling that async function
+    getapi(api_url);
 
+
+       // Defining async function
+
+
+var BeerModule = (function(){
+    
+    function setBeerName()
+    {
+      
+    }
+
+  
+
+})();
 var AccordianModule = (function(){
         
+  function getBeerNames()
+  {
+/*     var name ="";
+
+    for (i = 0; i < data.length; i++) {
+      name=data.name[i];
+
+      document.getElementById("accordian").innerHTML=name;
+
+
+    } */
+
+
+
+  }
+
+  return{
+    beerNames: getBeerNames()
+  }
         
 })();
 
+
+var GridModule = (function(){
+        
+        
+})();
 
 
