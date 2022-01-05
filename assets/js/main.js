@@ -43,50 +43,19 @@ for (i = 0; i < acc.length; i++) {
     const api_url = "https://api.punkapi.com/v2/beers/";
     
     // Defining async function
-    async function getapi(url) {
+    async function getapi() {
     
-    // Storing response
-  fetch(url)
-    .then (response=>{
-       return response.json();
-    })
-    // Storing data in form of JSON
-   .then(data=>{
-
-    console.log(data[0].name);
-    obj = JSON.parse(JSON.stringify(data));
+    const response= await fetch(api_url);
+    const data= await response.json();
+    console.log(data[2].name);
+    return data;
+   }
  
-    console.log(Object.keys(obj));
-    var name ="";
 
-    for (let i = 0; i < data.length; i++) {
-      console.log(data[i].name);
-      name= data[i].name
-
-      document.getElementById("accordian").innerHTML=data[i].name;
-
-
-    }
-
-
-
-   })
-    //var json = await getJsonData();
-    //const myObj = JSON.parse(data);
-
-    //console.log(data);
-
-    //AccordianModule.beerNames(data);
-   
-  
-    }
-
-    function getData(data){
-        return data;
-    }
     // Calling that async function
-    getapi(api_url);
-
+    getapi();
+    console.log(getapi());
+    //document.getElementsByClassName("accordion")[0].innerHTML="Hello World";
 
        // Defining async function
 
@@ -103,20 +72,56 @@ var BeerModule = (function(){
 })();
 var AccordianModule = (function(){
         
-  function getBeerNames()
+  async function getBeerNames()
   {
-/*     var name ="";
+    let names =[];
 
-    for (i = 0; i < data.length; i++) {
-      name=data.name[i];
+    try{
+        names= await getapi();
 
-      document.getElementById("accordian").innerHTML=name;
+    }
+
+    catch (e){
+          console.log("Error!");
+          console.log(e);
+    }
+
+    var name =""
+    console.log(names);
+    for (i=0; i<names.length;i++)
+    {
+      name=names[i].name;
+      console.log(name);
+      var content = '';
+      if ( typeof names[i].tagline !== 'undefined' ) {
+        //use content from json
+        content += names[i].tagline;
+      } 
+      //we'll be injecting into this div
+    var container = document.getElementById( 'accordion-container' );
+    //populate the container div
+    container.insertAdjacentHTML( 'beforeend', '<div class="accordion-example__accordion-title">' + name + '</div>' + '<div class="accordion-example__accordion-panel">' + content + '</p></div>' );
+     
+    }
 
 
-    } */
+    
+    
+    interactivateAccordions();
 
 
-
+  }
+  function interactivateAccordions() {
+    //get all accordions
+    var accordions = document.getElementsByClassName( 'accordion-example__accordion-title' );
+    //loop thorugh accordions
+    for ( var i = 0; i < accordions.length; i++ ) {
+        accordions[i].addEventListener('click', function() {
+          //toggle class on click
+          this.classList.toggle( 'accordion-example__accordion-title--active' );
+          this.nextElementSibling.classList.toggle( 'accordion-example__accordion-panel--active' );
+        });
+    }
   }
 
   return{
@@ -127,8 +132,51 @@ var AccordianModule = (function(){
 
 
 var GridModule = (function(){
-        
+
+
+  async function getBeerNames()
+  {
+    let names =[];
+
+    try{
+        names= await getapi();
+
+    }
+
+    catch (e){
+          console.log("Error!");
+          console.log(e);
+    }
+   
+    
+    var name =""
+    console.log(names);
+    for (i=0; i<names.length;i++)
+    {
+      name=names[i].name;
+      console.log(name);
+      var content = '';
+      if ( typeof names[i].tagline !== 'undefined' ) {
+        //use content from json
+        content += names[i].tagline;
+      } 
+      //we'll be injecting into this div
+    var container = document.getElementById( 'grid-container' );
+    //populate the container div
+    container.insertAdjacentHTML( 'beforeend', '<div class="col-12-xs col-6-md col-6-lg"><div class="card p-0"><h3 class="card-title m-1">' + name + '</h3></div></div>' );
+     
+    }
+
+
+    
+    
+    
+
+
+  }
+  return{
+    beerNames: getBeerNames()
+  }
         
 })();
-
 
